@@ -1,10 +1,36 @@
 var gpio = require("onoff").Gpio;
+var redis = require('redis');
+var publisher = redis.createClient(); //creates a new client
+var subscriber = redis.createClient(); //creates a new client
+
+
 const { write_text, update_oled } = require("./display");
 const { saveSettings } = require("./variables");
+
+publisher.connect();
+subscriber.connect();
 
 var up_b = new gpio(13, "in", "falling", { debounceTimeout: 30 });
 var down_b = new gpio(19, "in", "falling", { debounceTimeout: 30 });
 var mode_b = new gpio(26, "in", "falling", { debounceTimeout: 30 });
+
+
+subscriber.subscribe('message', (res) => {
+    console.log(res)
+    switch (res) {
+        case "recording":
+            console.log("...recording")
+            break;
+        case "storing":
+            console.log("...storing")
+            break;
+        case "completed":
+            console.log("...completed")
+            break;
+        default:
+            break;
+    }
+})
 
 up_b.watch((err, value) => {
     dim_count = 0;
@@ -68,6 +94,14 @@ mode_b.watch((err, value) => {
     if (statuses[mode] === "disabled") {
         saveSettings()
         update_oled()
+    }
+    switch (statuses[mode]) {
+        case "waiting":
+            publisher.publish('message', JSON.stringify({ waiting: true, start_hour, start_min, freq: frequencies[freq], mins }));
+            break;
+        default:
+            publisher.publish('message', JSON.stringify({ waiting: false }));
+            break;
     }
     write_text(statuses[mode], 1, 1, 54);
     while (mode_b.readSync() == 0) { }

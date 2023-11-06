@@ -15,10 +15,10 @@
     "freq_conf",
     "recording"
   ],
-  "freq": 0,
+  "freq": 4,
   "mode": 0,
-  "mins": 30,
-  "start_hour": 0,
-  "start_min": 0,
+  "mins": 1,
+  "start_hour": 16,
+  "start_min": 17,
   "dim_count": 0
 }

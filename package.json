@@ -6,6 +6,7 @@
     "coffee-script": "^1.12.7",
     "oled-font-5x7": "^1.0.3",
     "onoff": "^6.0.3",
+    "redis": "^4.6.10",
     "rpi-oled": "^0.9.1"
   },
   "scripts": {
@@ -14,6 +15,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {},
   "description": ""
 }
