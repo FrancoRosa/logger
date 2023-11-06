@@ -18,3 +18,13 @@ sudo apt-get install i2c-tools libi2c-dev
 # https://github.com/normen/rpi-oled
 sudo npm install -g rpi-oled coffee-script
 
+# install GPS dependecies
+sudo apt install gpsd 
+sudo apt install ntp
+
+# install readis
+sudo apt install redis
+
+# enable redis service
+sudo systemctl enable redis
+pip install redis
