@@ -1,0 +1,19 @@
+{
+  "name": "logger",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "coffee-script": "^1.12.7",
+    "oled-font-5x7": "^1.0.3",
+    "onoff": "^6.0.3",
+    "rpi-oled": "^0.9.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {},
+  "description": ""
+}
