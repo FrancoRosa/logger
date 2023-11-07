@@ -29,7 +29,11 @@ sudo apt install -y redis
 sudo systemctl enable redis
 sudo apt install -y python3-pip
 sudo apt install -y python3-redis
+udo apt install -y python3-smbus
 sudo apt-get install -y libudev-dev
+git clone https://github.com/m-rtijn/mpu6050.git
+cd mpu6050
+sudo python setup.py install
 # activate i2c
 sudo raspi-config nonint do_i2c 0
 
