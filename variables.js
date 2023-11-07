@@ -12,6 +12,7 @@ global.start_min = settings.start_min;
 global.dim_count = settings.dim_count;
 
 global.toogle = false
+global.pendrive = false
 
 const saveSettings = () => {
     const content = {

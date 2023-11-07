@@ -14,7 +14,7 @@ def save_file(filename, data):
     v1 = 0.0
     v2 = 0.0
     v3 = 0.0
-    with open("records/" + filename, 'w') as file:
+    with open("/media/usb" + filename, 'w') as file:
         for value in data:
             tc = datetime.utcfromtimestamp(value[0])
             te = tc.strftime("%H:%M:%S.%f")[:-3]

@@ -7,7 +7,8 @@
     "oled-font-5x7": "^1.0.3",
     "onoff": "^6.0.3",
     "redis": "^4.6.10",
-    "rpi-oled": "^0.9.1"
+    "rpi-oled": "^0.9.1",
+    "usb": "^2.11.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

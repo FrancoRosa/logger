@@ -1,7 +1,6 @@
 const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp, write_usb } = require("./display");
 
 clear_disp()
-write_usb(true)
 update_oled()
 getTime()
 write_text(statuses[mode], 1, 1, 54);

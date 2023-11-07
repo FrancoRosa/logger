@@ -29,7 +29,7 @@ sudo apt install -y redis
 sudo systemctl enable redis
 sudo apt install -y python3-pip
 sudo apt install -y python3-redis
-
+sudo apt-get install -y libudev-dev
 # activate i2c
 sudo raspi-config nonint do_i2c 0
 
