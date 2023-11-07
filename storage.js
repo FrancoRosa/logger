@@ -18,25 +18,35 @@ usb.on('detach', (device) => {
 });
 
 const getDeviceName = () => {
-    let rp = execSync("ls -l /dev/disk/by-uuid").toString()
-    rp = rp.split("\n").filter(l => l.includes('../../'))
+    let rp = execSync("ls -l /dev/disk/by-uuid")
+    rp = rp.toString().split("\n").filter(l => l.includes('../../'))
     rp = rp.map(l => l.split("../..")[1]).find(l => l.includes("/sd"))
-    return "/dev" + rp
+    console.log(rp)
+    if (rp) {
+        return "/dev" + rp
+    } else {
+        return false
+    }
 }
 
 const mount = () => {
-    pendrive = false
-    if (devices.filter(d => d.deviceDescriptor.bDeviceClass == 0).length == 1) {
-        console.log("mounting device")
-        const dev = getDeviceName()
-        execSync("sudo mkdir -p /media/usb")
-        execSync("sudo chown -R pi:pi /media/usb")
-        execSync(`sudo mount -o remount ${dev} /media/usb -o uid=pi,gid=pi`)
-        console.log("... device mounted")
-        pendrive = true
-    }
-    write_usb(pendrive)
+    setTimeout(() => {
+        pendrive = false
+        if (devices.filter(d => d.deviceDescriptor.bDeviceClass == 0).length == 1) {
+            console.log("mounting device")
+            const dev = getDeviceName()
+            if (dev) {
+                execSync("sudo mkdir -p /media/usb")
+                execSync("sudo chown -R pi:pi /media/usb")
+                execSync(`sudo mount --no-mtab ${dev} /media/usb -o uid=pi,gid=pi`)
+                console.log("... device mounted")
+                pendrive = true
+            }
+        }
+        write_usb(pendrive)
+    }, 3000);
+
 }
-setTimeout(() => {
-    mount()
-}, 5000);
+mount()
+
+

@@ -16,7 +16,7 @@ sudo apt-get install -y i2c-tools libi2c-dev
 
 # install oled library
 # https://github.com/normen/rpi-oled
-sudo npm install -g rpi-oled coffee-script
+sudo npm install -g rpi-oled coffee-script pm2
 
 # install GPS dependecies
 sudo apt install -y gpsd 
