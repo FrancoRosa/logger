@@ -18,6 +18,7 @@ data = []
 per = 1
 filename = 'test.txt'
 waiting = False
+compensate = 0.00010546666
 
 
 def wait_fn():
@@ -30,7 +31,7 @@ def wait_fn():
                 rd.publish("message", "recording")
                 sample = 0
                 while True:
-                    print("loop data", len(data))
+                    new = get_data()
                     data[sample] = get_data()
                     sample = sample+1
                     if sample >= samples:
@@ -53,34 +54,36 @@ def listener():
     sub.subscribe('message')
     for message in sub.listen():
         if message is not None and isinstance(message, dict):
-            ipc = loads(message.get('data'))
+            msg = message.get('data')
+            if (is_json(msg)):
+                ipc = loads(msg)
 
-            if ipc["waiting"] == True:
-                print("... configuring")
-                current_time = datetime.now()
-                tomorrow_time = current_time + timedelta(days=1)
-                desired_time = current_time.replace(
-                    hour=ipc["start_hour"], minute=ipc["start_min"],
-                    second=0, microsecond=0
-                )
-
-                if int(desired_time.timestamp()) < int(current_time.timestamp()):
-                    desired_time = tomorrow_time.replace(
+                if ipc["waiting"] == True:
+                    print("... configuring")
+                    current_time = datetime.now()
+                    tomorrow_time = current_time + timedelta(days=1)
+                    desired_time = current_time.replace(
                         hour=ipc["start_hour"], minute=ipc["start_min"],
                         second=0, microsecond=0
                     )
-                samples = 60*ipc["mins"]*ipc["freq"]
-                freq = ipc["freq"]
-                per = 1/freq
-                filename = get_filename(current_time)
-                target = int(desired_time.timestamp())
-                data = [[int(time()), 0, 0, 0]]*samples
-                print("config data", len(data))
-                print("waiting....")
-                waiting = True
-            else:
-                print("disabled....")
-                waiting = False
+
+                    if int(desired_time.timestamp()) < int(current_time.timestamp()):
+                        desired_time = tomorrow_time.replace(
+                            hour=ipc["start_hour"], minute=ipc["start_min"],
+                            second=0, microsecond=0
+                        )
+                    samples = 60*ipc["mins"]*ipc["freq"]
+                    freq = ipc["freq"]
+                    per = 1/freq - compensate
+                    filename = get_filename(desired_time)
+                    target = int(desired_time.timestamp())
+                    data = [[0.0, 0.0, 0.0, 0.0]]*samples
+                    print("config data", len(data))
+                    print("waiting....")
+                    waiting = True
+                else:
+                    print("disabled....")
+                    waiting = False
 
 
 Thread(target=wait_fn).start()

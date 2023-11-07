@@ -38,6 +38,13 @@ const write_frec = (text) => {
     write_text("Hz", 1, 110, 41);
 };
 
+const write_usb = (connected) => {
+    connected
+        ? write_text("usb", 1, 1, 1)
+        : write_text("   ", 1, 1, 1);
+};
+
+
 const update_oled = () => {
     write_start(`${format(global.start_hour, 2)}:${format(global.start_min, 2)}`);
     write_duration(`${format(global.mins, 2)}`);
@@ -62,7 +69,7 @@ const toogle_min = () => {
 };
 
 const write_anim = (text) => {
-    oled.setCursor(100, 54);
+    oled.setCursor(95, 54);
     oled.writeString(font, 1, text, 1, false);
 }
 
@@ -80,6 +87,7 @@ exports.toogle_hour = toogle_hour
 exports.toogle_min = toogle_min
 
 exports.write_anim = write_anim
+exports.write_usb = write_usb
 exports.clear_disp = clear_disp
 exports.dim = dim
 

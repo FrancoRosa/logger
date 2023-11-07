@@ -19,13 +19,16 @@ subscriber.subscribe('message', (res) => {
     console.log(res)
     switch (res) {
         case "recording":
-            console.log("...recording")
+            mode = statuses.indexOf("recording")
+            write_text("recording", 1, 1, 54);
             break;
         case "storing":
-            console.log("...storing")
+            write_text("saving   ", 1, 1, 54);
+
             break;
-        case "completed":
-            console.log("...completed")
+        case "saved":
+            mode = statuses.indexOf("disabled")
+            write_text("completed!", 1, 1, 54);
             break;
         default:
             break;
@@ -85,9 +88,10 @@ down_b.watch((err, value) => {
 });
 
 mode_b.watch((err, value) => {
-    mode++;
     dim_count = 0;
 
+    while (mode_b.readSync() == 0) { }
+    mode++;
     if (mode >= statuses.length - 1) {
         mode = 0;
     }
@@ -104,7 +108,6 @@ mode_b.watch((err, value) => {
             break;
     }
     write_text(statuses[mode], 1, 1, 54);
-    while (mode_b.readSync() == 0) { }
     console.log("mode");
 
 });
