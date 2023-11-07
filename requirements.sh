@@ -37,6 +37,11 @@ sudo python setup.py install
 # activate i2c
 sudo raspi-config nonint do_i2c 0
 
+# mke pm2 work as service
+sudo env PATH=$PATH:/usr/bin /usr/lib/node_modules/pm2/bin/pm2 startup systemd -u pi --hp /home/pi
+pm2 start --name display /home/pi/logger/main.js
+pm2 start --name sensor --interpreter python3 /home/pi/logger/main.py
+pm2 save
 # add this line using "sudo su"
 echo 'gpio=13,19,26=pu' >> /boot/config.txt
 
