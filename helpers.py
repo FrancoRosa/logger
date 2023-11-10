@@ -23,12 +23,12 @@ def save_file(filename, data):
     v3 = 0.0
     with open("/media/usb/" + filename, 'w') as file:
         for value in data:
-            tc = datetime.utcfromtimestamp(value[0])
+            tc = datetime.fromtimestamp(value[0])
             te = tc.strftime("%H:%M:%S.%f")[:-3]
             v1 = round(value[1], 4)
             v2 = round(value[2], 4)
             v3 = round(value[3], 4)
-            file.write(f"{te}, {v1}, {v2}, {v3}\n")
+            file.write(f"{te}; {v1}; {v2}; {v3}\n")
 
 
 def save_file_test(filename, data):
@@ -39,7 +39,7 @@ def save_file_test(filename, data):
     v3 = 0.0
     with open("/home/pi/logger/" + filename, 'w') as file:
         for value in data:
-            tc = datetime.utcfromtimestamp(value[0])
+            tc = datetime.fromtimestamp(value[0])
             te = tc.strftime("%H:%M:%S.%f")[:-3]
             v1 = round(value[1], 4)
             v2 = round(value[2], 4)

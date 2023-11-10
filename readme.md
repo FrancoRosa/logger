@@ -60,8 +60,5 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 sudo apt-get update
 sudo apt-get install redis
 
-```
-Install redis for python 
-```bash
-pip install redis
-```
+
+

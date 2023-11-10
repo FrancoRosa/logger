@@ -38,13 +38,17 @@ const mount = () => {
             if (dev) {
                 execSync("sudo mkdir -p /media/usb")
                 execSync("sudo chown -R pi:pi /media/usb")
-                execSync(`sudo mount --no-mtab ${dev} /media/usb -o uid=pi,gid=pi`)
+                try {
+                    execSync(`sudo mount --no-mtab ${dev} /media/usb -o uid=pi,gid=pi`)
+                } catch (error) {
+                    console.log("... already mounted")
+                }
                 console.log("... device mounted")
                 pendrive = true
             }
         }
         write_usb(pendrive)
-    }, 3000);
+    }, 2000);
 
 }
 mount()

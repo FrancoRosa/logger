@@ -44,6 +44,7 @@ pm2 start --name sensor --interpreter python3 /home/pi/logger/main.py
 pm2 save
 # add this line using "sudo su"
 echo 'gpio=13,19,26=pu' >> /boot/config.txt
+echo 'dtparam=i2c_vc=on' >> /boot/config.txt
 
 echo "use raspi-config to enable the serial hardware"
 echo "Ready, you need to restart to make effect"
