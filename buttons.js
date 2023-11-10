@@ -92,6 +92,9 @@ mode_b.watch((err, value) => {
 
     while (mode_b.readSync() == 0) { }
     mode++;
+    if (!pendrive && statuses[mode] == "waiting") {
+        mode++
+    }
     if (mode >= statuses.length - 1) {
         mode = 0;
     }
