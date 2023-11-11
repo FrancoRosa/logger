@@ -16,6 +16,23 @@ apt install ntp
 ```
 Edit configuration files as shown in the videos
 
+```bash
+#/etc/default/gpsd
+START_DAEMON="true"
+USBAUTO="true"
+DEVICES="/dev/ttyS0"
+GPSD_OPTIONS="-n -D 1"
+ENABLED="yes"
+GPS_BAUD=9600
+```
+
+```bash
+#/etc/ntpsec/ntp.conf
+server 127.127.28.0 minpoll 3 maxpoll 3
+fudge 127.127.28.0 refid GPS
+pool 0.debian.poool.ntp.org iburst
+```
+
 Restart and enable services if necessary
 
 ```bash

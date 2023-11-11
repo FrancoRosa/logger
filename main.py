@@ -18,7 +18,7 @@ data = []
 per = 1
 filename = 'test.txt'
 waiting = False
-compensate = 0.008217166666
+compensate = 0.00638308333333333
 
 
 def wait_fn():

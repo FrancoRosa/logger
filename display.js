@@ -5,6 +5,7 @@ const { format } = require("./helpers");
 const oled_opts = {
     width: 128,
     height: 64,
+    device: '/dev/i2c-0'
 };
 
 const oled = new oled_disp(oled_opts);

@@ -11,7 +11,11 @@ ac_data = sensor.get_accel_data()
 
 def get_data():
     # return [time(), rdn(), rdn(), rdn()] #for demo purposes
-    ac_data = sensor.get_accel_data()
+    try:
+        ac_data = sensor.get_accel_data()
+    except:
+        ac_data = {"x": 0, "y": 0, "z": 0}
+        pass
     return [time(), ac_data["x"], ac_data["y"], ac_data["z"]]
 
 
