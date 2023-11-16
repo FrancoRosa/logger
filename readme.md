@@ -1,5 +1,5 @@
 # logger
-> Acceleration data logger with usb storage, it uses GPS to precisely timestamp samples
+> Acceleration data logger with cloud support to store on mega.nz, it uses GPS to precisely timestamp samples
 
 
 # Requirements
