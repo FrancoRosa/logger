@@ -112,7 +112,7 @@ mode_b.watch((err, value) => {
     }
     switch (statuses[mode]) {
         case "waiting":
-            publisher.publish('message', JSON.stringify({ waiting: true, start_hour, start_min, freq: frequencies[freq], mins }));
+            publisher.publish('message', JSON.stringify({ waiting: true, start_hour, start_min, freq: frequencies[freq], mins, device_id }));
             break;
         default:
             publisher.publish('message', JSON.stringify({ waiting: false }));

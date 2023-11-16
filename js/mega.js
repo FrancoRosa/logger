@@ -3,23 +3,27 @@
 // on the folders that match the date and time
 const { Storage } = require("megajs");
 const fs = require("fs");
-const path = require("path");
-const credentials = require("./mega.json");
 const { write_files } = require("./display");
+const credentials = require("./mega.json");
 
 const folderPath = __dirname.replace('/js', "/csv")
-console.log({ folderPath })
 let storage;
 
 const getFolderName = () => {
     return new Date().toLocaleString("SV").split("-").slice(0, 2).join("_");
 };
 
-const uploadFile = async (filename, name, credentials) => {
+const uploadFile = async (filename, credentials) => {
+    // This function should save the file in a folder according to this structure
+    //
+    // logger
+    //    --- date_time
+    //          --- date_time_id.csv    
+    //
+    const folderName = "logger"
+    const subfolder = filename.split("_").slice(0, 2).join("_")
     const { email, password } = credentials;
     storage = new Storage({
-        // email: "km115.franco@gmail.com",
-        // password: "1618@Jabiru",
         email,
         password,
         userAgent: "ExampleClient/1.0",
@@ -28,23 +32,17 @@ const uploadFile = async (filename, name, credentials) => {
     console.log("... logged in");
     const fileStream = fs.createReadStream(filename);
     const size = fs.statSync(filename).size;
-    const folderName = getFolderName();
-    let folder = storage.root.children?.find((file) => file.name === name);
+    let folder = storage.root.children?.find((file) => file.name === folderName);
 
-    if (folder === undefined) {
-        console.log("... folder not found, creating ", name);
-        folder = await storage.mkdir(name);
-    } else {
-        console.log("... folder", name, "found");
-    }
 
-    let target = folder.children?.find((c) => c.name === folderName);
+
+    let target = folder.children?.find((c) => c.name === subfolder);
 
     if (target === undefined) {
-        console.log("... subfolder not found, creating", folderName);
-        target = await folder.mkdir(folderName);
+        console.log("... subfolder not found, creating", subfolder);
+        target = await folder.mkdir(subfolder);
     } else {
-        console.log("... subfolder", folderName, "found");
+        console.log("... subfolder", subfolder, "found");
     }
 
     const file = await storage.upload(
@@ -82,10 +80,7 @@ const getFiles = async () => {
 }
 
 
-// uploadFile("/home/fx/Desktop/icon.png", "franco_2", {
-//   email: "km115.franco@gmail.com",
-//   password: "1618@Jabiru",
-// }).then((link) => console.log({ link }));
+uploadFile(__dirname.replace("/js", "/csv/") + "20231116_171100_1.csv", credentials).then((link) => console.log({ link }));
 
 exports.uploadFile = uploadFile;
 exports.getFiles = getFiles;

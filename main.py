@@ -11,6 +11,7 @@ sub = rd.pubsub()
 
 current_time = datetime.now()
 desired_time = current_time
+device_id=0
 samples = 1
 freq = 1
 target = int(desired_time.timestamp())
@@ -50,7 +51,7 @@ def wait_fn():
 
 
 def listener():
-    global desired_time, target, samples, freq, per, data, filename, waiting
+    global desired_time, target, samples, freq, per, data, filename, waiting, device_id
     sub.subscribe('message')
     for message in sub.listen():
         if message is not None and isinstance(message, dict):
@@ -75,7 +76,7 @@ def listener():
                     samples = 60*ipc["mins"]*ipc["freq"]
                     freq = ipc["freq"]
                     per = 1/freq - compensate
-                    filename = get_filename(desired_time)
+                    filename = get_filename(desired_time,ipc["device_id"])
                     target = int(desired_time.timestamp())
                     data = [[0.0, 0.0, 0.0, 0.0]]*samples
                     print("config data", len(data))

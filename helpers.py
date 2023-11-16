@@ -51,8 +51,10 @@ def save_file_test(filename, data):
             file.write(f"{te}, {v1}, {v2}, {v3}\n")
 
 
-def get_filename(current):
-    return current.strftime("%Y%m%d_%H%M%S.csv")
+def get_filename(current, id):
+    filename  = current.strftime("%Y%m%d_%H%M%S.csv")
+    filename  = filename.replace(".csv","_%d.csv"%id)
+    return filename
 
 
 def is_json(text):
