@@ -76,6 +76,9 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 
 sudo apt-get update
 sudo apt-get install redis
+```
 
+## No wifi version
+Files are stored on csv folder and saved on a mega.nz folder, the account data is saved on mega.json file in js folder
 
 

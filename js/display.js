@@ -16,7 +16,7 @@ const clear_disp = () => {
 
 const write_text = (text, size = 1, x = 1, y = 1) => {
     oled.setCursor(x, y);
-    oled.writeString(font, size, text, 1, false);
+    oled.writeString(font, size, text, false, false);
 };
 
 const getTime = () => {
@@ -45,6 +45,13 @@ const write_usb = (connected) => {
         : write_text("   ", 1, 1, 1);
 };
 
+
+
+const write_wifi = (connected) => {
+    connected
+        ? write_text("wi", 1, 1, 1)
+        : write_text("  ", 1, 1, 1);
+};
 
 const update_oled = () => {
     write_start(`${format(global.start_hour, 2)}:${format(global.start_min, 2)}`);
@@ -89,6 +96,7 @@ exports.toogle_min = toogle_min
 
 exports.write_anim = write_anim
 exports.write_usb = write_usb
+exports.write_wifi = write_wifi
 exports.clear_disp = clear_disp
 exports.dim = dim
 

@@ -1,4 +1,5 @@
-const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp, write_usb } = require("./display");
+const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp } = require("./display");
+const { getWifi } = require("./wifi");
 
 clear_disp()
 update_oled()
@@ -66,3 +67,7 @@ setInterval(() => {
         toogle_duration();
     }
 }, 250);
+
+setInterval(() => {
+    getWifi()
+}, 10000);

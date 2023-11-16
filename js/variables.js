@@ -13,6 +13,7 @@ global.dim_count = settings.dim_count;
 
 global.toogle = false
 global.pendrive = false
+global.wifi = false
 
 const saveSettings = () => {
     const content = {

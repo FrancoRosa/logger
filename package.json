@@ -4,6 +4,7 @@
   "main": "main.js",
   "dependencies": {
     "coffee-script": "^1.12.7",
+    "megajs": "^1.1.4",
     "oled-font-5x7": "^1.0.3",
     "onoff": "^6.0.3",
     "redis": "^4.6.10",
