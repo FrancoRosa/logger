@@ -49,23 +49,33 @@ const write_usb = (connected) => {
 
 const write_wifi = (connected) => {
     connected
-        ? write_text("wi", 1, 1, 1)
-        : write_text("  ", 1, 1, 1);
+        ? write_text("w", 1, 0, 0)
+        : write_text(" ", 1, 0, 0);
+};
+
+const write_files = (files) => {
+    write_text(`f:${files > 9 ? "+" : files}`, 1, 0, 20)
+};
+
+const write_id = (id) => {
+    write_text(`i:${id}`, 1, 0, 9);
 };
 
 const update_oled = () => {
     write_start(`${format(global.start_hour, 2)}:${format(global.start_min, 2)}`);
     write_duration(`${format(global.mins, 2)}`);
     write_frec(format(global.frequencies[global.freq], 3));
+    write_id(device_id)
 }
-
-
-
-
 
 const toogle_frec = () => {
     toogle ? write_frec(`${format(global.frequencies[global.freq], 3)}`) : write_frec("___");
 };
+
+const toogle_id = () => {
+    toogle ? write_id(device_id) : write_id("_");
+};
+
 const toogle_duration = () => {
     toogle ? write_duration(`${format(global.mins, 2)}`) : write_duration("__");
 };
@@ -93,10 +103,13 @@ exports.toogle_frec = toogle_frec
 exports.toogle_duration = toogle_duration
 exports.toogle_hour = toogle_hour
 exports.toogle_min = toogle_min
+exports.toogle_id = toogle_id
 
 exports.write_anim = write_anim
 exports.write_usb = write_usb
 exports.write_wifi = write_wifi
+exports.write_files = write_files
+exports.write_id = write_id
 exports.clear_disp = clear_disp
 exports.dim = dim
 

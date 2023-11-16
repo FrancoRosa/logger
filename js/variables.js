@@ -1,6 +1,7 @@
 const fs = require('fs');
 const settings = require("../settings.json")
 
+global.device_id = settings.device_id
 global.frequencies = settings.frequencies;
 global.statuses = settings.statuses;
 
@@ -17,6 +18,7 @@ global.wifi = false
 
 const saveSettings = () => {
     const content = {
+        device_id,
         frequencies,
         statuses,
         freq,

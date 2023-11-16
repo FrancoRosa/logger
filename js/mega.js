@@ -3,9 +3,12 @@
 // on the folders that match the date and time
 const { Storage } = require("megajs");
 const fs = require("fs");
-const credentials = require("./mega.json")
-console.log(credentials)
+const path = require("path");
+const credentials = require("./mega.json");
+const { write_files } = require("./display");
 
+const folderPath = __dirname.replace('/js', "/csv")
+console.log({ folderPath })
 let storage;
 
 const getFolderName = () => {
@@ -63,9 +66,26 @@ const uploadFile = async (filename, name, credentials) => {
     return link;
 };
 
+const getFiles = async () => {
+    let csvFiles
+    fs.readdir(folderPath, (err, files) => {
+        if (err) {
+            console.error('Error reading folder:', err);
+            return;
+        }
+        console.log('Files in the folder:');
+        csvFiles = files.filter(f => f.includes(".csv"))
+        console.log({ files })
+        console.log({ csvFiles })
+        write_files(csvFiles.length)
+    });
+}
+
+
 // uploadFile("/home/fx/Desktop/icon.png", "franco_2", {
 //   email: "km115.franco@gmail.com",
 //   password: "1618@Jabiru",
 // }).then((link) => console.log({ link }));
 
 exports.uploadFile = uploadFile;
+exports.getFiles = getFiles;

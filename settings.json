@@ -1,5 +1,5 @@
 {
-  "id": 1,
+  "device_id": 1,
   "frequencies": [
     1,
     10,
@@ -10,16 +10,17 @@
   "statuses": [
     "disabled",
     "waiting",
+    "id_conf",
     "hour_conf",
     "min_conf",
     "time_conf",
     "freq_conf",
     "recording"
   ],
-  "freq": 4,
+  "freq": 0,
   "mode": 0,
-  "mins": 2,
-  "start_hour": 16,
-  "start_min": 33,
+  "mins": 1,
+  "start_hour": 17,
+  "start_min": 11,
   "dim_count": 0
 }

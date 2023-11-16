@@ -6,6 +6,7 @@ var subscriber = redis.createClient(); //creates a new client
 
 const { write_text, update_oled } = require("./display");
 const { saveSettings } = require("./variables");
+const { getFiles } = require("./mega");
 
 publisher.connect();
 subscriber.connect();
@@ -29,6 +30,7 @@ subscriber.subscribe('message', (res) => {
         case "saved":
             mode = statuses.indexOf("disabled")
             write_text("completed!", 1, 1, 54);
+            getFiles()
             break;
         default:
             break;
@@ -39,6 +41,10 @@ up_b.watch((err, value) => {
     dim_count = 0;
     while (up_b.readSync() == 0) { }
     switch (statuses[mode]) {
+        case "id_conf":
+            device_id++;
+            if (device_id > 9) { device_id = 0 }
+            break;
         case "hour_conf":
             start_hour++;
             if (start_hour > 23) { start_hour = 0 }
@@ -65,6 +71,10 @@ down_b.watch((err, value) => {
     dim_count = 0;
     while (down_b.readSync() == 0) { }
     switch (statuses[mode]) {
+        case "id_conf":
+            device_id--;
+            if (device_id < 0) { device_id = 9 }
+            break;
         case "hour_conf":
             start_hour--;
             if (start_hour < 0) { start_hour = 23 }
@@ -92,9 +102,7 @@ mode_b.watch((err, value) => {
 
     while (mode_b.readSync() == 0) { }
     mode++;
-    if (!pendrive && statuses[mode] == "waiting") {
-        mode++
-    }
+
     if (mode >= statuses.length - 1) {
         mode = 0;
     }

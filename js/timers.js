@@ -1,8 +1,11 @@
-const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp } = require("./display");
+const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp, write_id, toogle_id } = require("./display");
+const { getFiles } = require("./mega");
 const { getWifi } = require("./wifi");
 
 clear_disp()
 update_oled()
+getFiles()
+write_id(device_id)
 getTime()
 write_text(statuses[mode], 1, 1, 54);
 
@@ -54,6 +57,9 @@ setInterval(() => {
     toogle = !toogle;
 
     animation(statuses[mode]);
+    if (statuses[mode] == "id_conf") {
+        toogle_id()
+    }
     if (statuses[mode] == "hour_conf") {
         toogle_hour()
     }
