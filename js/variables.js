@@ -1,5 +1,5 @@
 const fs = require('fs');
-const settings = require("./settings.json")
+const settings = require("../settings.json")
 
 global.frequencies = settings.frequencies;
 global.statuses = settings.statuses;

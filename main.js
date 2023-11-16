@@ -1,9 +1,9 @@
 
-require("./variables")
-require("./buttons")
-require("./display")
-require("./storage")
-require("./timers")
+require("./js/variables")
+require("./js/buttons")
+require("./js/display")
+require("./js/storage")
+require("./js/timers")
 
 console.log("...start")
 
