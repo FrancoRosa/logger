@@ -98,9 +98,12 @@ const uploadFiles = async () => {
             console.log("... folder", folderName, "found");
         }
 
-        await uploadAll(filesToUpload, folder)
-
-        storage.close();
+        try {
+            await uploadAll(filesToUpload, folder)
+            storage.close();
+        } catch (error) {
+            console.log(error)
+        }
     }
 };
 
