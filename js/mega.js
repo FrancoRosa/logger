@@ -81,7 +81,6 @@ const uploadFiles = async () => {
     //
     const folderName = "logger"
     let filesToUpload = getFiles()
-    console.log({ filesToUpload })
     if (filesToUpload.length > 0) {
         const { email, password } = credentials;
         storage = new Storage({
@@ -105,10 +104,6 @@ const uploadFiles = async () => {
     }
 };
 
-
-
-
-uploadFiles(credentials);
 
 exports.uploadFiles = uploadFiles;
 exports.getFiles = getFiles;

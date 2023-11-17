@@ -76,7 +76,7 @@ setInterval(() => {
 
 setInterval(() => {
     getWifi()
-    if (statuses[mode] == "disabled") {
+    if (statuses[mode] === "disabled") {
         uploadFiles()
     }
 }, 10000);

@@ -46,7 +46,6 @@ def wait_fn():
 
             sleep(0.001)
         else:
-            print(".")
             sleep(1)
 
 

@@ -30,7 +30,6 @@ subscriber.subscribe('message', (res) => {
         case "saved":
             mode = statuses.indexOf("disabled")
             write_text("completed!", 1, 1, 54);
-            getFiles()
             break;
         default:
             break;
