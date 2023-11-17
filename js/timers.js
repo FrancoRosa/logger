@@ -1,5 +1,5 @@
 const { update_oled, getTime, write_text, dim, toogle_hour, toogle_min, toogle_frec, toogle_duration, write_anim, clear_disp, write_id, toogle_id } = require("./display");
-const { getFiles } = require("./mega");
+const { getFiles, uploadFiles } = require("./mega");
 const { getWifi } = require("./wifi");
 
 clear_disp()
@@ -76,4 +76,7 @@ setInterval(() => {
 
 setInterval(() => {
     getWifi()
+    if (statuses[mode] == "disabled") {
+        uploadFiles()
+    }
 }, 10000);

@@ -9,11 +9,70 @@ const credentials = require("./mega.json");
 const folderPath = __dirname.replace('/js', "/csv")
 let storage;
 
-const getFolderName = () => {
-    return new Date().toLocaleString("SV").split("-").slice(0, 2).join("_");
+const connectToMega = async () => {
+
+}
+
+const getFiles = () => {
+    let files = fs.readdirSync(folderPath)
+    csvFiles = files.filter(f => f.includes(".csv"))
+    write_files(csvFiles.length)
+    return csvFiles
+}
+const uploadFile = async (filename, folder) => {
+    let subfolder = filename.split("_").slice(0, 2).join("_").replace(".csv", "")
+    console.log(folderPath + "/" + filename)
+    let fileStream = fs.createReadStream(folderPath + "/" + filename);
+    let size = fs.statSync(folderPath + "/" + filename).size;
+    let target = folder.children?.find((c) => c.name === subfolder);
+
+    if (target === undefined) {
+        console.log("... subfolder not found, creating", subfolder);
+        target = await folder.mkdir(subfolder);
+        console.log("... subfolder", subfolder, "created");
+
+    } else {
+        console.log("... subfolder", subfolder, "found");
+    }
+    // try {
+    console.log("... trying to upload");
+
+    const file = await storage.upload(
+        {
+            name: filename,
+            size,
+            directory: false,
+        },
+        fileStream
+    ).complete;
+    console.log("... file conmpleted");
+
+    await file.moveTo(target);
+    console.log("...file", filename, "was uploaded!");
+    fs.unlinkSync(folderPath + "/" + filename)
+    console.log("...file", filename, "was deleted!");
+    // } catch (error) {
+    //     console.log("something happended")
+    //     consoler.log(error)
+    // }
 };
 
-const uploadFile = async (filename, credentials) => {
+const uploadAll = async (filesToUpload, folder) => {
+    for (let filename of filesToUpload) {
+        try {
+            // Assuming yourAsyncFunction is an asynchronous operation, replace it with your actual asynchronous function
+            console.log(`...Processing item: ${filename}`);
+
+            await uploadFile(filename, folder);
+            console.log(`Processed item: ${filename}`);
+        } catch (error) {
+            console.error(`Error processing filename ${filename}: ${error}`);
+            // If you want to continue processing other items even if one fails, you can handle the error here
+        }
+    }
+}
+
+const uploadFiles = async () => {
     // This function should save the file in a folder according to this structure
     //
     // logger
@@ -21,66 +80,35 @@ const uploadFile = async (filename, credentials) => {
     //          --- date_time_id.csv    
     //
     const folderName = "logger"
-    const subfolder = filename.split("_").slice(0, 2).join("_")
-    const { email, password } = credentials;
-    storage = new Storage({
-        email,
-        password,
-        userAgent: "ExampleClient/1.0",
-    });
-    await storage.ready;
-    console.log("... logged in");
-    const fileStream = fs.createReadStream(filename);
-    const size = fs.statSync(filename).size;
-    let folder = storage.root.children?.find((file) => file.name === folderName);
+    let filesToUpload = getFiles()
+    console.log({ filesToUpload })
+    if (filesToUpload.length > 0) {
+        const { email, password } = credentials;
+        storage = new Storage({
+            email,
+            password,
+            userAgent: "ExampleClient/1.0",
+        });
+        await storage.ready;
+        console.log("... logged in");
+        let folder = storage.root.children?.find((file) => file.name === folderName);
+        if (folder === undefined) {
+            console.log("... folder not found, creating ", folderName);
+            folder = await storage.mkdir(folderName);
+        } else {
+            console.log("... folder", folderName, "found");
+        }
 
+        await uploadAll(filesToUpload, folder)
 
-
-    let target = folder.children?.find((c) => c.name === subfolder);
-
-    if (target === undefined) {
-        console.log("... subfolder not found, creating", subfolder);
-        target = await folder.mkdir(subfolder);
-    } else {
-        console.log("... subfolder", subfolder, "found");
+        storage.close();
     }
-
-    const file = await storage.upload(
-        {
-            name: filename.split("/").pop(),
-            size,
-            directory: false,
-        },
-        fileStream
-    ).complete;
-
-    console.log("...file", filename.split("/").pop(), "was uploaded!");
-    file.moveTo(target);
-
-    const link = await file.link();
-    storage.close();
-    console.log("... returning link");
-
-    return link;
 };
 
-const getFiles = async () => {
-    let csvFiles
-    fs.readdir(folderPath, (err, files) => {
-        if (err) {
-            console.error('Error reading folder:', err);
-            return;
-        }
-        console.log('Files in the folder:');
-        csvFiles = files.filter(f => f.includes(".csv"))
-        console.log({ files })
-        console.log({ csvFiles })
-        write_files(csvFiles.length)
-    });
-}
 
 
-uploadFile(__dirname.replace("/js", "/csv/") + "20231116_171100_1.csv", credentials).then((link) => console.log({ link }));
 
-exports.uploadFile = uploadFile;
+uploadFiles(credentials);
+
+exports.uploadFiles = uploadFiles;
 exports.getFiles = getFiles;
