@@ -9,9 +9,6 @@ const credentials = require("./mega.json");
 const folderPath = __dirname.replace('/js', "/csv")
 let storage;
 
-const connectToMega = async () => {
-
-}
 
 const getFiles = () => {
     let files = fs.readdirSync(folderPath)
