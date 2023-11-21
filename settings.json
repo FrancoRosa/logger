@@ -1,5 +1,5 @@
 {
-  "device_id": 7,
+  "device_id": 8,
   "frequencies": [
     1,
     10,
@@ -17,10 +17,10 @@
     "freq_conf",
     "recording"
   ],
-  "freq": 4,
+  "freq": 3,
   "mode": 0,
   "mins": 1,
-  "start_hour": 19,
-  "start_min": 31,
+  "start_hour": 13,
+  "start_min": 26,
   "dim_count": 0
 }
