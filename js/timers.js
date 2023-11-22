@@ -75,14 +75,12 @@ setInterval(() => {
 }, 250);
 
 setInterval(() => {
-    getWifi()
+    getWifi();
     if(statuses[mode] === "disabled"){
         if (wifi) {
-
-            uploadFiles()
-        }else {
-            getFiles()
+            uploadFiles();
+        } else {
+            getFiles();
         }
     }
-    }
-, 10000);
+}, 10000);
